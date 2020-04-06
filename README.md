@@ -366,8 +366,8 @@ const fileReader1 = (next) => {
 fileReader1(fileReader2);
 ```
 
-Dapat dilihat dari kode di atas dengan mengubah menjadi beberapa function  
-kode menjadi lebih tidak ternested dan menjadi lebih modular, hanya saja  
+Dapat dilihat dari kode di atas dengan mengubah menjadi beberapa function kode 
+menjadi lebih tidak ternested dan menjadi lebih modular, hanya saja 
 jumlah LoC nya bertambah banyak.
 
 ## Referensi

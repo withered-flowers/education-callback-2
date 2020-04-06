@@ -2,6 +2,7 @@
 1. [Sync & Async Process](#sync-&-async-process)
 1. [What is Callback?](#what-is-callback)
 1. [Why we need callback?](#why-we-need-callback)
+1. [Let's Make Callback!](#lets-make-callback)
 1. [Real world case study](#real-world-case-study)
 1. [Callback Hell](#callback-hell)
 1. [Referensi](#referensi)
@@ -178,7 +179,7 @@ secara berurutan dan berharap urutan tersebut akan dijalankan dengan benar.
 
 Solusinya bagaimana? salah satunya adalah dengan menggunakan **callback**.
 
-## Yuk buat callback
+## Let's make callback
 Masih dengan contoh yang sama di atas, kita akan memodifikasi kode sehingga
 walaupun `fungsiPertama` menggunakan `setTimeout` sebagai analogi API Request,
 namun tetap "ditunggu" oleh `fungsiKedua`

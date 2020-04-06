@@ -2,7 +2,6 @@
 1. [Sync & Async Process](#sync-&-async-process)
 1. [What is Callback?](#what-is-callback)
 1. [Why we need callback?](#why-we-need-callback)
-1. Callback Implementation
 1. [Real world case study](#real-world-case-study)
 1. [Callback Hell](#callback-hell)
 1. [Referensi](#referensi)

@@ -360,3 +360,5 @@ jumlah LoC nya bertambah banyak.
 
 ## Referensi
 * [Sync & Async in Javascript - Hongkiat](https://www.hongkiat.com/blog/synchronous-asynchronous-javascript)
+* [fs API - NodeJS](https://nodejs.org/api/fs.html)
+* [Callback Hell Introduction](https://callbackhell.com)

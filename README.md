@@ -1,11 +1,63 @@
 ## Table of Content
+1. [Prelude What is JSON?](#prelude-what-is-json)
 1. [Sync & Async Process](#sync-&-async-process)
 1. [What is Callback?](#what-is-callback)
 1. [Why we need callback?](#why-we-need-callback)
-1. [Let's Make Callback!](#lets-make-callback)
+1. [Let's Make Callback - Synchronous](#lets-make-callback---synchronous)
+1. [Let's Make Callback - Asynchronous](#lets-make-callback---asynchronous)
 1. [Real world case study](#real-world-case-study)
-1. [Callback Hell](#callback-hell)
+1. [Nested Callback](#nested-callback)
 1. [Referensi](#referensi)
+
+## Prelude What is JSON?
+Pada pertemuan sebelumnya, kita menggunakan data dengan format ekstensinya
+adalah CSV atau `comma separated value`, pada pertemuan kali ini kita akan
+menggunakan data dengan format JSON atau disebut dengan `JavaScript Object 
+Notation`.
+
+JSON ini merupakan tipe data ringan yang sekarang ini banyak digunakan dalam 
+pertukaran data antar browser ataupun server, data dalam JSON ini hanya bisa
+berbentuk `text` saja.
+
+Contoh file dalam bentuk JSON:
+```json
+[
+  {
+    "name": "Kenny O'Connell",
+    "email": "Arvel.Hilll71@hotmail.com",
+    "dob": "2020-03-24T16:07:39.706Z",
+    "company": "Hagenes and Sons",
+    "image": "https://s3.amazonaws.com/"
+  },
+  {
+    "name": "Jaden Mann",
+    "email": "London79@hotmail.com",
+    "dob": "2019-06-26T02:55:01.276Z",
+    "company": "Schuster - Pollich",
+    "image": "gs://gcs.google.com/"
+  }
+]
+```
+
+Keterangan:  
+Notasi JSON ini sangat mirip dengan deklarasi array dan object 
+di dalam javascript sendiri, dimana `[ ]` menyatakan `array` dan `{ }` 
+menyatakan `object`.
+
+Tipe data yang diperbolehkan dalam JSON sendiri pun terbatas, hanya boleh
+berupa:
+* string
+* angka
+* object
+* array
+* boolean
+* null
+
+WARNING:  
+*undefined* tidak diperbolehkan dalam notasi JSON.
+
+Untuk cara penggunaan (membaca dan menulis json, akan dijelaskan di materi
+ini nantinya).
 
 ## Sync & Async Process
 Di dalam dunia *programming*, ada beberapa istilah dalam melakukan kodingan:
@@ -171,13 +223,57 @@ dahulu baru menjalankan `fungsiKedua`, hanya saja ***Javascript tidak menunggu**
 
 Jadi pada javascript, kita **tidak** bisa mengharapkan dengan memanggil fungsi
 secara berurutan dan berharap urutan tersebut akan dijalankan dengan benar.
+(Karena sudah dibuat secara **asynchronous** dengan `setTimeout`)
 
 Solusinya bagaimana? salah satunya adalah dengan menggunakan **callback**.
 
-## Let's make callback
-Masih dengan contoh yang sama di atas, kita akan memodifikasi kode sehingga
-walaupun `fungsiPertama` menggunakan `setTimeout` sebagai analogi API Request,
-namun tetap "ditunggu" oleh `fungsiKedua`
+## Let's make callback - Synchronous
+Kita mengetahui bahwa callback memiliki dua tipe, yaitu sync dan async,
+pada bagian ini kita akan coba membuat sync callback yaitu `sort` pada array.
+
+Code:
+```javascript
+let unsortedArray = [3, 2, 4, 1, 5, 7, 6];
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+// arr.sort([compareFunction])
+// compareFunction 
+//   firstEl
+//   secondEl
+
+unsortedArray.sort(function pembanding(inputPertama, inputKedua) {
+  if(inputPertama < inputKedua) {
+    return -1;
+  }
+  if(inputPertama > inputKedua) {
+    return 1;
+  }
+});
+
+// atau bisa ditulis juga dengan cara seperti ini
+function pembanding(inputPertama, inputKedua) {
+  if(inputPertama < inputKedua) {
+    return -1;
+  }
+  if(inputPertama > inputKedua) {
+    return 1;
+  }
+};
+
+unsortedArray.sort(pembanding);
+console.log(unsortedArray);
+```
+
+Output:
+```javascript
+[1, 2, 3, 4,
+ 5, 6, 7]
+```
+
+## Let's make callback - Asynchronous
+Dengan contoh yang sama pada bagian [Why we need calllback](#why-we-need-callback), 
+kita akan memodifikasi kode sehingga walaupun `fungsiPertama` menggunakan `setTimeout` sebagai 
+analogi API Request, namun tetap "ditunggu" oleh `fungsiKedua`
 
 Code:
 ```javascript
@@ -260,10 +356,22 @@ fs.readFile('./0-generated.json', 'utf8', function callback(err, data) {
   console.log("Hore data sudah selesai dibaca !");
 });
 
-// lakukan logic lainnya, fs.readFile tidak akan nge-block program di bawah ini 
+// lakukan logic lainnya, fs.readFile tidak akan nge-block program di bawah ini
+const objOutput = {
+  param1: "Hello",
+  param2: "World"
+};
+
+fs.writeFile('./0-result.json', objOutput, function calback(err) {
+  if(err) {
+    throw err;
+  }
+  
+  console.log("File 0-result.json sudah terbentuk");
+}); 
 ```
 
-## Callback Hell
+## Nested Callback
 Misalkan kita ingin membaca 3 file yang berbeda, sebut saja namanya:
 * 0-file1.json
 * 0-file2.json
@@ -302,61 +410,6 @@ fs.readFile('./0-file1.json', 'utf8', function cb1(err1,data1) {
   });
 });
 ```
-
-Ini kita baru membuat 3 saja, indentasinya sudah cukup banyak,  
-apabila kita membutuhkan banyak callback? bagaimana jadinya?  
-*prone to error* bukan?
-
-Solusinya bagaimana?
-
-Dengan memecah function yang ada !
-
-Code:
-```javascript
-const fs = require('fs');
-
-const fileReader3 = (data1, data2) => {
-  fs.readFile('./0-file3.json', 'utf8', (err, data3) => {
-    if(err) {
-      throw err;
-    }
-
-    data3 = JSON.parse(data3);
-
-    console.log(`${data1[0].dob} dengan ${data2[0].name} dan ${data3[0].email}`);
-  });
-};
-
-const fileReader2 = (data1, next) => {
-  fs.readFile('./0-file2.json', 'utf8', (err, data2) => {
-    if(err) {
-      throw err;
-    }
-
-    data2 = JSON.parse(data2);
-
-    next(data1, data2);
-  });
-};
-
-const fileReader1 = (next) => {
-  fs.readFile('./0-file1.json', 'utf8', (err, data) => {
-    if(err) {
-      throw err;
-    }
-
-    data = JSON.parse(data);
-
-    next(data, fileReader3);
-  });
-};
-
-fileReader1(fileReader2);
-```
-
-Dapat dilihat dari kode di atas dengan mengubah menjadi beberapa function kode 
-menjadi lebih tidak ternested dan menjadi lebih modular, hanya saja 
-jumlah LoC nya bertambah banyak.
 
 ## Referensi
 * [Sync & Async in Javascript - Hongkiat](https://www.hongkiat.com/blog/synchronous-asynchronous-javascript)

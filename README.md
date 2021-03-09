@@ -233,41 +233,31 @@ pada bagian ini kita akan coba membuat sync callback yaitu `sort` pada array.
 
 Code:
 ```javascript
-let unsortedArray = [3, 2, 4, 1, 5, 7, 6];
+let arr = [3, 2, 4, 1, 5, 7, 6];
 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-// arr.sort([compareFunction])
-// compareFunction 
-//   firstEl
-//   secondEl
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+// arr.sort([forEachFunction])
+// forEachFunction 
+//   currentValue
+//   index [optional]
+//   array [optional]
 
-unsortedArray.sort(function pembanding(inputPertama, inputKedua) {
-  if(inputPertama < inputKedua) {
-    return -1;
-  }
-  if(inputPertama > inputKedua) {
-    return 1;
-  }
+arr.forEach(function forEachLooping(element, index) {
+  console.log(index, element);
 });
 
 // atau bisa ditulis juga dengan cara seperti ini
-function pembanding(inputPertama, inputKedua) {
-  if(inputPertama < inputKedua) {
-    return -1;
-  }
-  if(inputPertama > inputKedua) {
-    return 1;
-  }
+function forEachLooping(element, index) {
+  console.log(index, element)
 };
 
-unsortedArray.sort(pembanding);
-console.log(unsortedArray);
+arr.forEach(forEachLooping);
 ```
 
 Output:
 ```javascript
-[1, 2, 3, 4,
- 5, 6, 7]
+[3, 2, 4, 1,
+ 5, 7, 66]
 ```
 
 ## Let's make callback - Asynchronous

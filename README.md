@@ -229,14 +229,14 @@ Solusinya bagaimana? salah satunya adalah dengan menggunakan **callback**.
 
 ## Let's make callback - Synchronous
 Kita mengetahui bahwa callback memiliki dua tipe, yaitu sync dan async,
-pada bagian ini kita akan coba membuat sync callback yaitu `sort` pada array.
+pada bagian ini kita akan coba membuat sync callback yaitu `forEach` pada array.
 
 Code:
 ```javascript
 let arr = [3, 2, 4, 1, 5, 7, 6];
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-// arr.sort([forEachFunction])
+// arr.forEach([forEachFunction])
 // forEachFunction 
 //   currentValue
 //   index [optional]
